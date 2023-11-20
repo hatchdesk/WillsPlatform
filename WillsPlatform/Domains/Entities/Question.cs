@@ -1,4 +1,6 @@
-﻿namespace Domains.Entities
+﻿using WillsPlatform.Domains.Entities;
+
+namespace Domains.Entities
 {
     public class Question
     {
@@ -7,6 +9,7 @@
             Form = new Form();
             Field = new Field();
         }
+
         public int Id { get; set; }
         public string Text { get; set; } = string.Empty;
         public int FormId { get; set; }

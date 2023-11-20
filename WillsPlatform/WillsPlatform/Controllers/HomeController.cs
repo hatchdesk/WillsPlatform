@@ -18,11 +18,6 @@ namespace WillsPlatform.Controllers
             return View();
         }
 
-        public IActionResult Questionnaires()
-        {
-            return View();
-        }
-
         public IActionResult Privacy()
         {
             return View();

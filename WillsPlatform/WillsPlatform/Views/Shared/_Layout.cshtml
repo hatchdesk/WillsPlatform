@@ -271,7 +271,7 @@
                 </a>
                 <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="#">
+                        <a asp-action="Create" asp-controller="Form" asp-area="" asp-route-id="1">
                             <i class="bi bi-circle"></i><span>Wills</span>
                         </a>
                     </li>
@@ -283,17 +283,17 @@
                 </ul>
             </li><!-- End Forms Nav -->
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-menu-button-wide"></i><span>Components</span><i class="bi bi-chevron-down ms-auto"></i>
+                <a class="nav-link collapsed" data-bs-target="#management-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-menu-button-wide"></i><span>Management</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="management-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a asp-action="Questionnaires" asp-controller="Home" asp-area="">
+                        <a asp-action="Questionnaires" asp-controller="Manage" asp-area="">
                             <i class="bi bi-circle"></i><span>Questionnaires</span>
                         </a>
                     </li>
                 </ul>
-            </li><!-- End Components Nav -->
+            </li><!-- End Management Nav -->
             <li class="nav-heading">Reports</li>
         </ul>
 

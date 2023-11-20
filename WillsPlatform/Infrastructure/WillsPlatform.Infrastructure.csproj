@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domains\WillsPlatform.Domains.csproj" />
+    <ProjectReference Include="..\WillsPlatform.Application\WillsPlatform.Application.csproj" />
   </ItemGroup>
 
 </Project>
