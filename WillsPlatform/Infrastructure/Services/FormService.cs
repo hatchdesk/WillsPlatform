@@ -12,13 +12,15 @@ namespace WillsPlatform.Infrastructure.Services
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly ITemplateRepository _templateRepository;
+        private readonly IFormRepository _formRepository;
         private readonly IMapper _mapper;
 
-        public FormService(IQuestionRepository questionRepository, ITemplateRepository templateRepository, IMapper mapper)
+        public FormService(IQuestionRepository questionRepository, ITemplateRepository templateRepository, IMapper mapper, IFormRepository formRepository)
         {
             _mapper = mapper;
             _questionRepository = questionRepository;
             _templateRepository = templateRepository;
+            _formRepository = formRepository;
         }
     
         public async Task<IEnumerable<QuestionDTO>> GetFormQuestionsAsync(int formId)
@@ -32,6 +34,12 @@ namespace WillsPlatform.Infrastructure.Services
             var query = _templateRepository.GetAllQueryable(includes: x=>x.Tokens);
             var template = await query.Where(q => q.FormId == formId).FirstOrDefaultAsync();
             return _mapper.Map<Template,TemplateDTO>(template??new Template());
+        }
+
+        public async Task<List<FormDtos>> GetAllFormAsync()
+        {
+            var query = await _formRepository.GetAllFormDataAsync();
+            return _mapper.Map<List<FormDtos>>(query);
         }
 
     }

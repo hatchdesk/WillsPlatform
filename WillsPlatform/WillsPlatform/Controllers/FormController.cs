@@ -2,7 +2,9 @@
 using System.Text;
 using WillsPlatform.Application.DTOs;
 using WillsPlatform.Application.Services;
+using WillsPlatform.Infrastructure.Services;
 using WillsPlatform.Web.Models.Forms;
+using WillsPlatform.Web.Models.Manage;
 
 namespace WillsPlatform.Web.Controllers
 {
@@ -49,6 +51,13 @@ namespace WillsPlatform.Web.Controllers
             }
         }
 
+        public async Task<IActionResult> FormsListAsync()
+        {
+            var result = await _formService.GetAllFormAsync();
+            var formVm = new FormListVM();
+            formVm.Forms = result;
+            return View(formVm);
+        }
 
         #region Helper Methods --
         private string ParseTemplate(TemplateDTO template, IFormCollection userInputs)

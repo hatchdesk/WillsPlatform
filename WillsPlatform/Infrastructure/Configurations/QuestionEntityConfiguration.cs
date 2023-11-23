@@ -21,11 +21,13 @@ namespace Infrastructure.Configurations
 
             builder.HasOne(f => f.Form)
                    .WithMany(f => f.Questions)
-                   .HasForeignKey(f => f.FormId);
+                   .HasForeignKey(f => f.FormId)
+                   .IsRequired(); // Ensure that the foreign key is required
 
             builder.HasOne(f => f.Field)
                    .WithMany()
-                   .HasForeignKey(f => f.FieldId);
+                   .HasForeignKey(f => f.FieldId)
+                   .IsRequired(); // Ensure that the foreign key is required
         }
     }
 }

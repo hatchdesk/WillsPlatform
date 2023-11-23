@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domains.Entities;
 
 namespace WillsPlatform.Application.DTOs
 {
@@ -13,5 +9,7 @@ namespace WillsPlatform.Application.DTOs
         public string Text { get; set; } = string.Empty;
         public int FormId { get; set; }
         public int FieldId { get; set; }
+        public Form Form { get; set; }
+        public Field Field { get; set; }
     }
 }

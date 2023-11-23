@@ -1,16 +1,16 @@
-﻿@using WillsPlatform.Web.Models.Manage
-@model QuestionnariesVM
+﻿@using WillsPlatform.Web.Models.Forms
+@model FormListVM
 
 @{
     ViewData["Title"] = "Questionnaires";
 }
 
 <div class="pagetitle">
-    <h1>Questionnaires</h1>
+    <h1>Forms</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item active">Questionnaires</li>
+            <li class="breadcrumb-item active">Form</li>
         </ol>
     </nav>
 </div>
@@ -25,24 +25,18 @@
                         <thead>
                             <tr>
                                 <th scope="col">S.No</th>
-                                <th scope="col">Form</th>
-                                <th scope="col">Text</th>
-                                <th scope="col">Field Type</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Name</th>
                             </tr>
                         </thead>
                         <tbody>
                             @{
                                 int i = 1;
-                                foreach (var question in Model.QuestionDTOs)
+                                foreach (var form in Model.Forms)
                                 {
 
                                     <tr>
                                         <th scope="row"><a href="#">#@i</a></th>
-                                        <td>@question.Form.Name</td>
-                                        <td>@question.Text</td>
-                                        <td><a href="#" class="text-primary">@question.Field.Name</a></td>
-                                        <td><span class="badge bg-success">Approved</span></td>
+                                        <td>@form.Name</td>
                                     </tr>
                                     {
                                         i++;

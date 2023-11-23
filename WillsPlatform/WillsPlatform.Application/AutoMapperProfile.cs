@@ -9,8 +9,11 @@ namespace WillsPlatform.Application
     {
         public AutoMapperProfile()
         {
-            CreateMap<Question, QuestionDTO>();
+            CreateMap<Question, QuestionDTO>()
+            .ForMember(dest => dest.Form, opt => opt.MapFrom(src => src.Form))
+            .ForMember(dest => dest.Field, opt => opt.MapFrom(src => src.Field));
             CreateMap<Token, TokenDTO>();
+            CreateMap<Form, FormDtos>();
             CreateMap<Template, TemplateDTO>().ForMember(d=>d.Tokens, s => s.MapFrom(x => x.Tokens));
         }
     }

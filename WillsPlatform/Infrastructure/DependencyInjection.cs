@@ -19,10 +19,12 @@ namespace Infrastructure
             #region -- Repositories Registration --
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<ITemplateRepository, TemplateRepository>();
+            services.AddScoped<IFormRepository, FormRepository>();
             #endregion
 
             #region -- Services Registration --
             services.AddScoped<IFormService, FormService>();
+            services.AddScoped<IQuestionService, QuestionService>();
             #endregion
 
             services.AddDbContext<ApplicationDbContext>(option =>
