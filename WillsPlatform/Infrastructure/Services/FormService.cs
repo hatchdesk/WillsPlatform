@@ -37,8 +37,8 @@ namespace WillsPlatform.Infrastructure.Services
 
         public async Task<IEnumerable<FormDTO>> GetAllFormAsync()
         {
-            var query = await _formRepository.GetAllFormDataAsync();
-            return _mapper.Map<List<FormDTO>>(query);
+            var forms = await _formRepository.GetAllAsync();
+            return _mapper.Map<List<FormDTO>>(forms);
         }
 
     }
