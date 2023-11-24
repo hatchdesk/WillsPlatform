@@ -25,6 +25,9 @@ namespace Infrastructure
             #region -- Services Registration --
             services.AddScoped<IFormService, FormService>();
             services.AddScoped<IQuestionService, QuestionService>();
+            services.AddScoped<IFieldRepository, FieldRepository>();
+            services.AddScoped<IFieldService, FieldService>();
+            services.AddScoped<ITemplateService, TemplateService>();
             #endregion
 
             services.AddDbContext<ApplicationDbContext>(option =>
