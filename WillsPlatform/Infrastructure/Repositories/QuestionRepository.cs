@@ -32,12 +32,10 @@ namespace WillsPlatform.Infrastructure.Repositories
             return questions;
         }
 
-        public async Task<List<Question>> GetAllQuestionsAsync()
+        public async Task<IEnumerable<Question>> GetAllQuestionsAsync()
         {
-            var query = await _dbContext.Questions
-                        .Include(x=>x.Form)
-                        .Include(x=>x.Field).ToListAsync();
-            return query;
+            var query = GetAllQueryable(predicate: null, x=>x.Form, x=>x.Field);
+            return await query.ToListAsync();
         }
     }
 }

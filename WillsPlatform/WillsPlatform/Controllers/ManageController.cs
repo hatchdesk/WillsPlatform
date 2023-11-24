@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WillsPlatform.Application.Services;
 using WillsPlatform.Web.Models.Manage;
 
@@ -7,19 +6,43 @@ namespace WillsPlatform.Web.Controllers
 {
     public class ManageController : Controller
     {
-        private readonly IMapper _mapper;
         private readonly IQuestionService _questionService;
-        public ManageController(IQuestionService questionService, IMapper mapper)
+        private readonly IFormService _formService;
+
+        public ManageController(IQuestionService questionService, IFormService formService)
         {
-            _questionService = questionService ?? throw new ArgumentNullException(nameof(questionService));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _questionService = questionService;
+            _formService = formService;
         }
-        public async Task<IActionResult> QuestionnairesAsync()
+
+        public async Task<IActionResult> Questionnaires()
         {
-            var result = await _questionService.GetQuestionsAsync();
-            var questios = new QuestionnariesVM();
-            questios.QuestionDTOs = result;
-            return View(questios);
+            var questions = await _questionService.GetQuestionsAsync();
+            var model = new QuestionnaireViewModel()
+            {
+                Questionnaires = questions
+            };
+            return View(model);
+        }
+
+        public async Task<IActionResult> Forms()
+        {
+            var forms = await _formService.GetAllFormAsync();
+            var model = new FormsViewModel
+            {
+                Forms = forms
+            };       
+            return View(model);
+        }
+
+        public async Task<IActionResult> Fields()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Templates()
+        {
+            return View();
         }
     }
 }

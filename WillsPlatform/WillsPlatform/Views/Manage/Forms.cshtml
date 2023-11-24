@@ -1,5 +1,5 @@
-﻿@using WillsPlatform.Web.Models.Forms
-@model FormListVM
+﻿@using WillsPlatform.Web.Models.Manage
+@model FormsViewModel
 
 @{
     ViewData["Title"] = "Questionnaires";
@@ -10,7 +10,7 @@
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item active">Form</li>
+            <li class="breadcrumb-item active">Forms</li>
         </ol>
     </nav>
 </div>
@@ -20,27 +20,25 @@
             <div class="card recent-sales overflow-auto">
 
                 <div class="card-body">
-                    <h5 class="card-title">Questionnaires<span>| Management</span> <button class="btn btn-primary float-end">Add New</button></h5>
+                    <h5 class="card-title">Forms<span>| Management</span> <button class="btn btn-primary float-end">Add New</button></h5>
                     <table class="table table-borderless datatable">
                         <thead>
                             <tr>
                                 <th scope="col">S.No</th>
                                 <th scope="col">Name</th>
+                                <th scope="col">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             @{
-                                int i = 1;
-                                foreach (var form in Model.Forms)
+                                foreach (var (form, index) in Model.Forms.Select((value, i) => (value, ++i)))
                                 {
 
                                     <tr>
-                                        <th scope="row"><a href="#">#@i</a></th>
+                                        <th scope="row"><a href="#">#@index</a></th>
                                         <td>@form.Name</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
                                     </tr>
-                                    {
-                                        i++;
-                                    }
                                 }
                             }
                         </tbody>
@@ -49,6 +47,6 @@
                 </div>
 
             </div>
-        </div><!-- End Recent Sales -->
+        </div>
     </div>
 </section>

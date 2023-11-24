@@ -2,9 +2,7 @@
 using System.Text;
 using WillsPlatform.Application.DTOs;
 using WillsPlatform.Application.Services;
-using WillsPlatform.Infrastructure.Services;
 using WillsPlatform.Web.Models.Forms;
-using WillsPlatform.Web.Models.Manage;
 
 namespace WillsPlatform.Web.Controllers
 {
@@ -19,16 +17,11 @@ namespace WillsPlatform.Web.Controllers
 
         public async Task<IActionResult> Create(int id)
         {
-            var questions = await  _formService.GetFormQuestionsAsync(id);
-            var questionModel = questions.Select(q => new QuestionViewModel()
-            {
-                Id = q.Id,
-                Name = q.Name,
-                FieldId = q.FieldId,
-                Text = q.Text
+            var questions = await  _formService.GetFormQuestionsAsync(id); 
+            
+            return View( new FormViewModel () {
+                FormId = id, Questions = questions 
             });
-                     
-            return View( new FormViewModel () {FormId = id, Questions = questionModel});
         }      
 
         [HttpPost]
@@ -49,14 +42,6 @@ namespace WillsPlatform.Web.Controllers
                 string exceptionMessage = ex.Message;
                 return View();
             }
-        }
-
-        public async Task<IActionResult> FormsListAsync()
-        {
-            var result = await _formService.GetAllFormAsync();
-            var formVm = new FormListVM();
-            formVm.Forms = result;
-            return View(formVm);
         }
 
         #region Helper Methods --

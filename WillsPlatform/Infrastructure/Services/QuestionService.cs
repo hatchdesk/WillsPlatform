@@ -10,11 +10,13 @@ namespace WillsPlatform.Infrastructure.Services
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IMapper _mapper;
+
         public QuestionService(IQuestionRepository questionRepository, IMapper mapper)
         {
             _questionRepository = questionRepository ?? throw new ArgumentNullException(nameof(questionRepository)); 
             _mapper = mapper ?? throw new ArgumentNullException(nameof(_mapper));
         }
+
         public async Task<List<QuestionDTO>> GetQuestionsAsync()
         {
             var questionDto = new List<QuestionDTO>();

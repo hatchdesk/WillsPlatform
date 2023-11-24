@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Domains.Entities;
 using Microsoft.EntityFrameworkCore;
 using WillsPlatform.Application.DTOs;
 using WillsPlatform.Application.Repositories;
@@ -36,10 +35,10 @@ namespace WillsPlatform.Infrastructure.Services
             return _mapper.Map<Template,TemplateDTO>(template??new Template());
         }
 
-        public async Task<List<FormDtos>> GetAllFormAsync()
+        public async Task<IEnumerable<FormDTO>> GetAllFormAsync()
         {
             var query = await _formRepository.GetAllFormDataAsync();
-            return _mapper.Map<List<FormDtos>>(query);
+            return _mapper.Map<List<FormDTO>>(query);
         }
 
     }

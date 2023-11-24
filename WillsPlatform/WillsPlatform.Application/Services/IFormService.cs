@@ -6,6 +6,6 @@ namespace WillsPlatform.Application.Services
     {
         Task<IEnumerable<QuestionDTO>> GetFormQuestionsAsync(int formId);
         Task<TemplateDTO> GetFormTemplateAsync(int formId);
-        Task<List<FormDtos>> GetAllFormAsync();
+        Task<IEnumerable<FormDTO>> GetAllFormAsync();
     }
 }

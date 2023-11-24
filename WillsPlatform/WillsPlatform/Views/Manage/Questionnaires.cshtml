@@ -1,5 +1,5 @@
 ﻿@using WillsPlatform.Web.Models.Manage
-@model QuestionnariesVM
+@model QuestionnaireViewModel
 
 @{
     ViewData["Title"] = "Questionnaires";
@@ -18,7 +18,6 @@
     <div class="row">
         <div class="col-12">
             <div class="card recent-sales overflow-auto">
-
                 <div class="card-body">
                     <h5 class="card-title">Questionnaires<span>| Management</span> <button class="btn btn-primary float-end">Add New</button></h5>
                     <table class="table table-borderless datatable">
@@ -33,20 +32,16 @@
                         </thead>
                         <tbody>
                             @{
-                                int i = 1;
-                                foreach (var question in Model.QuestionDTOs)
+                                foreach (var (question, index) in Model.Questionnaires.Select((value,i)=>(value, ++i)))
                                 {
 
                                     <tr>
-                                        <th scope="row"><a href="#">#@i</a></th>
+                                        <th scope="row"><a href="#">#@index</a></th>
                                         <td>@question.Form.Name</td>
                                         <td>@question.Text</td>
                                         <td><a href="#" class="text-primary">@question.Field.Name</a></td>
                                         <td><span class="badge bg-success">Approved</span></td>
                                     </tr>
-                                    {
-                                        i++;
-                                    }
                                 }
                             }
                         </tbody>
@@ -55,6 +50,6 @@
                 </div>
 
             </div>
-        </div><!-- End Recent Sales -->
+        </div>
     </div>
 </section>
