@@ -1,13 +1,7 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WillsPlatform.Application.DTOs;
 using WillsPlatform.Application.Repositories;
 using WillsPlatform.Application.Services;
-using WillsPlatform.Infrastructure.Repositories;
 
 namespace WillsPlatform.Infrastructure.Services
 {

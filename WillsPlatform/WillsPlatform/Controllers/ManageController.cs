@@ -41,20 +41,20 @@ namespace WillsPlatform.Web.Controllers
 
         public async Task<IActionResult> Fields()
         {
-            var fieldDTOs = await _fieldService.GetAllFieldAsync();
+            var fields = await _fieldService.GetAllFieldAsync();
             var model = new FieldsViewModel
             {
-                Fields = fieldDTOs
+                Fields = fields
             };
             return View(model);
         }
 
         public async Task<IActionResult> Templates()
         {
-            var templatesDto = await _templateService.GetAllTEmplateAsync();
+            var templates = await _templateService.GetAllTEmplateAsync();
             var model = new TemplatesViewModel
             {
-                Templates = templatesDto
+                Templates = templates
             };
             return View(model);
         }
