@@ -8,11 +8,15 @@ namespace WillsPlatform.Web.Controllers
     {
         private readonly IQuestionService _questionService;
         private readonly IFormService _formService;
+        private readonly IFieldService _fieldService;
+        private readonly ITemplateService _templateService;
 
-        public ManageController(IQuestionService questionService, IFormService formService)
+        public ManageController(IQuestionService questionService, IFormService formService, IFieldService fieldService, ITemplateService templateService)
         {
             _questionService = questionService;
             _formService = formService;
+            _fieldService = fieldService;
+            _templateService = templateService;
         }
 
         public async Task<IActionResult> Questionnaires()
@@ -37,12 +41,22 @@ namespace WillsPlatform.Web.Controllers
 
         public async Task<IActionResult> Fields()
         {
-            return View();
+            var fieldDTOs = await _fieldService.GetAllFieldAsync();
+            var model = new FieldsViewModel
+            {
+                Fields = fieldDTOs
+            };
+            return View(model);
         }
 
         public async Task<IActionResult> Templates()
         {
-            return View();
+            var templatesDto = await _templateService.GetAllTEmplateAsync();
+            var model = new TemplatesViewModel
+            {
+                Templates = templatesDto
+            };
+            return View(model);
         }
     }
 }

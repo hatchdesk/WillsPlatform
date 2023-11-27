@@ -1,4 +1,5 @@
-﻿@{
+﻿@model TemplatesViewModel
+@{
     ViewData["Title"] = "Templates";
 }
 
@@ -27,12 +28,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row"><a href="#">#1</a></th>
-                                <td>Wills Html Template</td>
-                                <td>{{TestatorName}}, {{Date}}, {{Gender}}, {{LastFileDate}}</td>
-                                <td><span class="badge bg-success">Approved</span></td>
-                            </tr>
+                                @{
+                                    foreach (var (template, index) in Model.Templates.Select((value, i) => (value, ++i)))
+                                    {
+
+                                    <tr>
+                                        <th scope="row"><a href="#">#@index</a></th>
+                                        <td>@template.Text</td>
+                                        <td>@template.Tokens.FirstOrDefault()</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                    </tr>
+                                    }
+                                }
                         </tbody>
                     </table>
 

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model FieldsViewModel
+@{
     ViewData["Title"] = "Fields";
 }
 
@@ -27,16 +28,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row"><a href="#">#1</a></th>
-                                <td>Textbox</td>
-                                <td><span class="badge bg-success">Approved</span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row"><a href="#">#2</a></th>
-                                <td>Dropdown</td>
-                                <td><span class="badge bg-success">Approved</span></td>
-                            </tr>
+                            @{
+                                foreach (var (field, index) in Model.Fields.Select((value, i) => (value, ++i)))
+                                {
+
+                                    <tr>
+                                        <th scope="row"><a href="#">#@index</a></th>
+                                        <td>@field.Name</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                    </tr>
+                                }
+                            }
                         </tbody>
                     </table>
 

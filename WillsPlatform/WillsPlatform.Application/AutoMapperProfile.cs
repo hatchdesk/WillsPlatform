@@ -14,6 +14,7 @@ namespace WillsPlatform.Application
             .ForMember(dest => dest.Field, opt => opt.MapFrom(src => src.Field));
             CreateMap<Token, TokenDTO>();
             CreateMap<Form, FormDTO>();
+            CreateMap<Field, FieldDTO>();
             CreateMap<Template, TemplateDTO>().ForMember(d=>d.Tokens, s => s.MapFrom(x => x.Tokens));
         }
     }
