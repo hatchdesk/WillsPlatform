@@ -40,7 +40,7 @@ namespace WillsPlatform.Web.Controllers
             catch(Exception ex)
             {
                 string exceptionMessage = ex.Message;
-                return View();
+                return RedirectToAction(nameof(Create),model.FormId);
             }
         }
 
