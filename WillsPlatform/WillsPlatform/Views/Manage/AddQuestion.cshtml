@@ -1,16 +1,16 @@
 ﻿@using WillsPlatform.Web.Models.Forms;
 @{
-    ViewData["Title"] = "Create";
-    @model CreateQuestionViewModel
+    ViewData["Title"] = "Add";
+    @model AddQuestionViewModel
 }
 
 <div class="pagetitle">
     <h1>Create</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item"><a href="/Manage/Questionnaires">Questions</a></li>
-            <li class="breadcrumb-item active">Create</li>
+            <li class="breadcrumb-item"><a href="~/">Home</a></li>
+            <li class="breadcrumb-item"><a href="~/Manage/Questionnaires">Questions</a></li>
+            <li class="breadcrumb-item active">Add</li>
         </ol>
     </nav>
 </div>
@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Form Information</h5>
-                    <form asp-action="CreateQuestion" asp-controller="Manage" method="post" class="row g-3">
+                    <form asp-action="AddQuestion" asp-controller="Manage" method="post" class="row g-3">
                         
                         <!-- Text input -->
                         <label asp-for="Text"></label>
@@ -30,14 +30,14 @@
                         
                         <!-- Form dropdown -->
                         <label asp-for="FormId"></label>
-                        <select asp-for="FormId" asp-items="Model.FormType">
+                        <select asp-for="FormId" asp-items="Model.Forms">
                             <option value="" selected>Please select</option>
                         </select>
                         <span asp-validation-for="FormId" class="text-danger"></span>
 
                         <!-- Field dropdown -->
                         <label asp-for="FieldId"></label>
-                        <select asp-for="FieldId" asp-items="Model.FieldType">
+                        <select asp-for="FieldId" asp-items="Model.Fields">
                             <option value="" selected>Please select</option>
                         </select>
                         <span asp-validation-for="FieldId" class="text-danger"></span>
@@ -49,7 +49,6 @@
                         </div>
 
                     </form>
-
                 </div>
             </div>
         </div>

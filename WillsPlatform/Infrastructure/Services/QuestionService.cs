@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domains.Entities;
+using WillsPlatform.Application;
 using WillsPlatform.Application.DTOs;
 using WillsPlatform.Application.Repositories;
 using WillsPlatform.Application.Services;
@@ -10,11 +11,13 @@ namespace WillsPlatform.Infrastructure.Services
     {
         private readonly IQuestionRepository _questionRepository;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public QuestionService(IQuestionRepository questionRepository, IMapper mapper)
+        public QuestionService(IQuestionRepository questionRepository, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _questionRepository = questionRepository;
             _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IEnumerable<QuestionDTO>> GetQuestionsAsync()
@@ -23,13 +26,14 @@ namespace WillsPlatform.Infrastructure.Services
             return _mapper.Map<List<QuestionDTO>>(questions);
         }
 
-        public async Task<bool> CreateQuestionAsync(QuestionDTO questionPostDTO)
+        public async Task<bool> AddQuestionAsync(QuestionDTO questionPostDTO)
         {
             try
             {
                 var question = _mapper.Map<Question>(questionPostDTO);
                 await _questionRepository.AddAsync(question);
-                return true;
+                var addedRecord = await _unitOfWork.SaveChangesAsync();
+                return (addedRecord > 0);
             }
             catch (Exception ex) 
             { 
@@ -49,7 +53,8 @@ namespace WillsPlatform.Infrastructure.Services
             {
                 var question = _mapper.Map<Question>(questionPostDTO);
                 await _questionRepository.UpdateAsync(question);
-                return true;
+                var updatedRecord = await _unitOfWork.SaveChangesAsync();
+                return (updatedRecord > 0);
             }
             catch (Exception ex)
             {

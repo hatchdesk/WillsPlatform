@@ -62,29 +62,18 @@ namespace WillsPlatform.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateQuestion()
+        public async Task<IActionResult> AddQuestion()
         {
-            IEnumerable<FormDTO> formDTOs = await _formService.GetAllFormAsync();
-            IEnumerable<FieldDTO> fieldDTOs = await _fieldService.GetAllFieldAsync();
-
-            var questionViewModel = new CreateQuestionViewModel
-            {
-                FormType = formDTOs.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList(),
-                FieldType = fieldDTOs.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList()
-            };
-
+            var questionViewModel = await InitilizeModelAsync(new AddQuestionViewModel() { });
             return View(questionViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateQuestion(CreateQuestionViewModel model)
+        public async Task<IActionResult> AddQuestion(AddQuestionViewModel model)
         {
-            IEnumerable<FormDTO> formDTOs = await _formService.GetAllFormAsync();
-            IEnumerable<FieldDTO> fieldDTOs = await _fieldService.GetAllFieldAsync();
-            model.FieldType = fieldDTOs.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList();
-            model.FormType = formDTOs.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList();
             if (!ModelState.IsValid)
             {
+                await InitilizeModelAsync(model);
                 return View(model);
             }
 
@@ -94,12 +83,9 @@ namespace WillsPlatform.Web.Controllers
                 FormId = model.FormId,
                 FieldId = model.FieldId
             };
-
-            var isCreated = await _questionService.CreateQuestionAsync(questionPostDTO);
-            if (!isCreated) 
-            {
+            var isAdded = await _questionService.AddQuestionAsync(questionPostDTO);
+            if (!isAdded) 
                 return View(model);
-            }
 
             return RedirectToAction(nameof(Questionnaires));
         }
@@ -156,5 +142,19 @@ namespace WillsPlatform.Web.Controllers
 
             return RedirectToAction(nameof(Questionnaires));
         }
+
+
+        #region -- Private Helper Methods --
+        private async Task<AddQuestionViewModel> InitilizeModelAsync(AddQuestionViewModel model)
+        {
+            var forms = await _formService.GetAllFormAsync();
+            var fields = await _fieldService.GetAllFieldAsync();
+
+            model.Forms = forms.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList();
+            model.Fields = fields.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList();
+
+            return model;
+        }
+        #endregion
     }
 }

@@ -5,7 +5,7 @@ namespace WillsPlatform.Application.Services
     public interface IQuestionService
     {
         Task<IEnumerable<QuestionDTO>> GetQuestionsAsync();
-        Task<bool> CreateQuestionAsync(QuestionDTO questionPostDTO);
+        Task<bool> AddQuestionAsync(QuestionDTO questionPostDTO);
         Task<QuestionDTO> GetQuestionsByIdAsync(int id);
         Task<bool> UpdateQuestionAsync(QuestionDTO questionPostDTO);
     }
