@@ -8,7 +8,7 @@ namespace WillsPlatform.Web.Models.Manage
     {
         [Display(Name = "Text")]
         [Required(ErrorMessage = "Please enter the question.")]
-        public string Text { get; set; } = string.Empty;
+        public string Text { get; set; }
 
         [Display(Name = "Select Form:")]
         [Required(ErrorMessage = "Please select a form.")]

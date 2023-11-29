@@ -18,6 +18,8 @@ namespace WillsPlatform.Application
             CreateMap<Template, TemplateDTO>().ForMember(d=>d.Tokens, s => s.MapFrom(x => x.Tokens));
             CreateMap<QuestionDTO, Question>()
             .ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<FormDTO, Form>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }

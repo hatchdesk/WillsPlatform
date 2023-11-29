@@ -129,6 +129,7 @@ namespace WillsPlatform.Web.Controllers
 
             var questionPostDTO = new QuestionDTO()
             {
+                Id = model.Id,
                 Text = model.Text,
                 FormId = model.FormId,
                 FieldId = model.FieldId
@@ -141,6 +142,71 @@ namespace WillsPlatform.Web.Controllers
             }
 
             return RedirectToAction(nameof(Questionnaires));
+        }
+
+        [HttpGet]
+        public IActionResult AddForm()
+        {
+            return View(new AddFormViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddForm(AddFormViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(new AddFormViewModel());
+            }
+
+            var formPostDTO = new FormDTO()
+            {
+                Name = model.Name
+            };
+            var isAdded = await _formService.AddFormAsync(formPostDTO);
+            if (!isAdded)
+                return View(model);
+
+            return RedirectToAction(nameof(Forms));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditForm(int id)
+        {
+            var form = await _formService.GetFormByIdAsync(id);
+            if (form == null)
+            {
+                return RedirectToAction(nameof(Forms));
+            }
+            var formViewModel = new EditFormViewModel
+            {
+                Name = form.Name,
+                Id = form.Id
+            };
+
+            return View(formViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditForm(EditFormViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var formPostDTO = new FormDTO()
+            {
+                Id = model.Id,
+                Name = model.Name
+            };
+
+            var isUpdate = await _formService.UpdateFormAsync(formPostDTO);
+            if (!isUpdate)
+            {
+                return View(model);
+            }
+
+            return RedirectToAction(nameof(Forms));
         }
 
 

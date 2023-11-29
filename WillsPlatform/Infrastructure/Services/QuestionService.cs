@@ -51,7 +51,10 @@ namespace WillsPlatform.Infrastructure.Services
         {
             try
             {
-                var question = _mapper.Map<Question>(questionPostDTO);
+                var question = await _questionRepository.GetAsync(questionPostDTO.Id);
+                question.Text = questionPostDTO.Text;
+                question.FieldId = questionPostDTO.FieldId;
+                question.FormId = questionPostDTO.FormId;
                 await _questionRepository.UpdateAsync(question);
                 var updatedRecord = await _unitOfWork.SaveChangesAsync();
                 return (updatedRecord > 0);
