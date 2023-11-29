@@ -18,7 +18,7 @@
             <div class="card recent-sales overflow-auto">
 
                 <div class="card-body">
-                    <h5 class="card-title">Fields<span>| Management</span> <button class="btn btn-primary float-end">Add New</button></h5>
+                    <h5 class="card-title">Fields<span>| Management</span> <a asp-action="AddField" asp-controller="Manage" class="btn btn-primary float-end">Add New</a></h5>
                     <table class="table table-borderless datatable">
                         <thead>
                             <tr>
@@ -35,7 +35,7 @@
                                     <tr>
                                         <th scope="row"><a href="#">#@index</a></th>
                                         <td>@field.Name</td>
-                                        <td><span class="badge bg-success">Approved</span></td>
+                                        <td><span class="badge bg-success"><a asp-action="EditField" asp-controller="Manage" asp-route-id="@field.Id">Edit</a></span></td>
                                     </tr>
                                 }
                             }

@@ -209,6 +209,71 @@ namespace WillsPlatform.Web.Controllers
             return RedirectToAction(nameof(Forms));
         }
 
+        [HttpGet]
+        public IActionResult AddField()
+        {
+            return View(new AddFieldViewModel());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddField(AddFieldViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(new AddFieldViewModel());
+            }
+
+            var fieldPostDTO = new FieldDTO()
+            {
+                Name = model.Name
+            };
+            var isAdded = await _fieldService.AddFieldAsync(fieldPostDTO);
+            if (!isAdded)
+                return View(model);
+
+            return RedirectToAction(nameof(Fields));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditField(int id)
+        {
+            var field = await _fieldService.GetFieldByIdAsync(id);
+            if (field == null)
+            {
+                return RedirectToAction(nameof(Fields));
+            }
+            var fieldViewModel = new EditFieldViewModel
+            {
+                Name = field.Name,
+                Id = field.Id
+            };
+
+            return View(fieldViewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditField(EditFieldViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var fieldPostDTO = new FieldDTO()
+            {
+                Id = model.Id,
+                Name = model.Name
+            };
+
+            var isUpdate = await _fieldService.UpdateFieldAsync(fieldPostDTO);
+            if (!isUpdate)
+            {
+                return View(model);
+            }
+
+            return RedirectToAction(nameof(Fields));
+        }
+
 
         #region -- Private Helper Methods --
         private async Task<AddQuestionViewModel> InitilizeModelAsync(AddQuestionViewModel model)

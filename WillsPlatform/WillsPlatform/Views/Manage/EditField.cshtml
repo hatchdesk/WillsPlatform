@@ -1,7 +1,7 @@
 ﻿@using WillsPlatform.Web.Models.Forms;
 @{
     ViewData["Title"] = "Edit";
-    @model EditFormViewModel
+    @model EditFieldViewModel
 }
 
 <div class="pagetitle">
@@ -9,7 +9,7 @@
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="~/">Home</a></li>
-            <li class="breadcrumb-item"><a href="~/Manage/Forms">Forms</a></li>
+            <li class="breadcrumb-item"><a href="~/Manage/Fields">Fields</a></li>
             <li class="breadcrumb-item active">Edit</li>
         </ol>
     </nav>
@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Form Information</h5>
-                    <form asp-action="EditForm" asp-controller="Manage" method="post" class="row g-3">
+                    <form asp-action="EditField" asp-controller="Manage" method="post" class="row g-3">
                         
                         <!-- Text input -->
                         <label asp-for="Name"></label>
