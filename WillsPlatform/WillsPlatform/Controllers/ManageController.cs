@@ -81,8 +81,8 @@ namespace WillsPlatform.Web.Controllers
             var questionPostDTO = new QuestionDTO()
             {
                 Text = model.Text,
-                FormId = (int)model.FormId,
-                FieldId = (int)model.FieldId
+                FormId = model.FormId??0,
+                FieldId = model.FieldId ?? 0
             };
             var isAdded = await _questionService.AddQuestionAsync(questionPostDTO);
             if (!isAdded) 
