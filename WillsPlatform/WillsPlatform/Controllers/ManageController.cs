@@ -145,7 +145,7 @@ namespace WillsPlatform.Web.Controllers
                 return View(model);
             }
 
-            TempData["success"] = $"Questions added successfully";
+            TempData["success"] = $"Questions update successfully";
             return RedirectToAction(nameof(Questionnaires));
         }
 
