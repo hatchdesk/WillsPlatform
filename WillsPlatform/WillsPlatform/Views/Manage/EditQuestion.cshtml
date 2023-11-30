@@ -13,35 +13,62 @@
             <li class="breadcrumb-item active">Edit</li>
         </ol>
     </nav>
+    <div class="col-lg-6 mx-auto">
+        @if (TempData["success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-1"></i>
+                @TempData["success"].ToString();
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        @if (TempData["error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-octagon me-1"></i>
+                @TempData["error"].ToString();
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+    </div>
 </div>
 
 <section class="section">
    <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-9 mx-auto">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Form Information</h5>
                     <form asp-action="EditQuestion" asp-controller="Manage" method="post" class="row g-3">
-                        
+
                         <!-- Text input -->
-                        <label asp-for="Text"></label>
-                        <input asp-for="Text" />
-                        <span asp-validation-for="Text" class="text-danger"></span>
-                        
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <input asp-for="Text" type="text" class="form-control" id="floatingName" placeholder="Your Name">
+                                <label asp-for="Text" for="floatingName"></label>
+                                <span asp-validation-for="Text" class="text-danger"></span>
+                            </div>
+                        </div>
                         <!-- Form dropdown -->
-                        <label asp-for="FormId"></label>
-                        <select asp-for="FormId" asp-items="Model.FormType">
-                            <option value="" selected>Please select</option>
-                        </select>
-                        <span asp-validation-for="FormId" class="text-danger"></span>
-
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <select asp-for="FormId" asp-items="Model.FormType" class="form-select" id="floatingSelect" aria-label="State">
+                                    <option value="" selected>Please select</option>
+                                </select>
+                                <label asp-for="FormId" for="floatingSelect"></label>
+                                <span asp-validation-for="FormId" class="text-danger"></span>
+                            </div>
+                        </div>
                         <!-- Field dropdown -->
-                        <label asp-for="FieldId"></label>
-                        <select asp-for="FieldId" asp-items="Model.FieldType">
-                            <option value="" selected>Please select</option>
-                        </select>
-                        <span asp-validation-for="FieldId" class="text-danger"></span>
-
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <select asp-for="FieldId" asp-items="Model.FieldType" class="form-select" id="floatingSelect" aria-label="State">
+                                    <option value="" selected>Please select</option>
+                                </select>
+                                <label asp-for="FieldId" for="floatingSelect"></label>
+                                <span asp-validation-for="FieldId" class="text-danger"></span>
+                            </div>
+                        </div>
                         <!-- Hedden Field-->
                         <input asp-for="Id" hidden/>
 

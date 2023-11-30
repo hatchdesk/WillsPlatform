@@ -73,6 +73,7 @@ namespace WillsPlatform.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["error"] = $"Please enter valid data";
                 await InitilizeModelAsync(model);
                 return View(model);
             }
@@ -80,12 +81,14 @@ namespace WillsPlatform.Web.Controllers
             var questionPostDTO = new QuestionDTO()
             {
                 Text = model.Text,
-                FormId = model.FormId,
-                FieldId = model.FieldId
+                FormId = (int)model.FormId,
+                FieldId = (int)model.FieldId
             };
             var isAdded = await _questionService.AddQuestionAsync(questionPostDTO);
             if (!isAdded) 
                 return View(model);
+
+            TempData["success"] = $"Questions added successfully";
 
             return RedirectToAction(nameof(Questionnaires));
         }
@@ -124,6 +127,7 @@ namespace WillsPlatform.Web.Controllers
             
             if (!ModelState.IsValid)
             {
+                TempData["error"] = $"Please enter valid data";
                 return View(model);
             }
 
@@ -131,8 +135,8 @@ namespace WillsPlatform.Web.Controllers
             {
                 Id = model.Id,
                 Text = model.Text,
-                FormId = model.FormId,
-                FieldId = model.FieldId
+                FormId = (int)model.FormId,
+                FieldId = (int)model.FieldId
             };
 
             var isUpdate = await _questionService.UpdateQuestionAsync(questionPostDTO);
@@ -141,6 +145,7 @@ namespace WillsPlatform.Web.Controllers
                 return View(model);
             }
 
+            TempData["success"] = $"Questions added successfully";
             return RedirectToAction(nameof(Questionnaires));
         }
 
