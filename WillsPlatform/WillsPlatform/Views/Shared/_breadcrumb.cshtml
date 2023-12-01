@@ -1,0 +1,18 @@
+﻿@using WillsPlatform.Web.Models
+@model List<Breadcrumb>
+
+<nav>
+    <ol class="breadcrumb">
+        @foreach (var breadcrumb in Model)
+        {
+            if (breadcrumb.Active)
+            {
+                <li class="breadcrumb-item"><a asp-action="@breadcrumb.Action" asp-controller="@breadcrumb.Controller">@breadcrumb.Text</a></li>
+            }
+            else
+            {
+                <li class="breadcrumb-item active" aria-current="page">@breadcrumb.Text</li>
+            }
+        }
+    </ol>
+</nav>

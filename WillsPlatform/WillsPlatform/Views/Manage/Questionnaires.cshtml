@@ -6,13 +6,8 @@
 }
 
 <div class="pagetitle">
-    <h1>Questionnaires</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <li class="breadcrumb-item active">Questionnaires</li>
-        </ol>
-    </nav>
+    <h1>@Model.Heading</h1>
+    @await Html.PartialAsync("_breadcrumb",Model.Breadcrumbs)
     @await Html.PartialAsync("_Notification")
 </div>
 <section class="section">  

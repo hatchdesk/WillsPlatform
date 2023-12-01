@@ -11,13 +11,14 @@
             <li class="breadcrumb-item active">Templates</li>
         </ol>
     </nav>
+    @await Html.PartialAsync("_Notification")
 </div>
 <section class="section">
     <div class="row">
         <div class="col-12">
             <div class="card recent-sales overflow-auto">
                 <div class="card-body">
-                    <h5 class="card-title">Templates<span>| Management</span> <a asp-action="CreateQuestion" asp-controller="Manage" class="btn btn-primary float-end">Add New</a></h5>
+                    <h5 class="card-title">Templates<span>| Management</span> <a asp-action="AddTemplates" asp-controller="Manage" class="btn btn-primary float-end">Add New</a></h5>
                     <table class="table table-borderless datatable">
                         <thead>
                             <tr>
@@ -36,7 +37,9 @@
                                         <th scope="row"><a href="#">#@index</a></th>
                                         <td>Wills Template</td>
                                         <td>@template.Tokens.FirstOrDefault()</td>
-                                        <td><span class="badge bg-success">Approved</span></td>
+                                        <td><a class="btn btn-success" asp-action="EditTemplates" asp-controller="Manage" asp-route-id="@template.Id">Edit</a>
+                                            <a class="btn btn-danger" asp-action="DeleteTemplates" asp-controller="Manage" asp-route-id="@template.Id">Delete</a>
+                                        </td>
                                     </tr>
                                     }
                                 }

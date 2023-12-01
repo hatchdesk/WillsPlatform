@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WillsPlatform.Application.DTOs;
 using WillsPlatform.Application.Services;
+using WillsPlatform.Web.Models;
 using WillsPlatform.Web.Models.Manage;
 
 namespace WillsPlatform.Web.Controllers
@@ -24,10 +25,18 @@ namespace WillsPlatform.Web.Controllers
         public async Task<IActionResult> Questionnaires()
         {
             var questions = await _questionService.GetQuestionsAsync();
+            var breadcrumbs = new List<Breadcrumb>() 
+            { 
+                new Breadcrumb("Home", "/", "Home", true),
+                new Breadcrumb("Questionnaires", "/", "Manage", false),
+            };
             var model = new QuestionnaireViewModel()
             {
-                Questionnaires = questions
+                Questionnaires = questions,
+                Heading = "Questionnaires",
+                Breadcrumbs = breadcrumbs
             };
+
             return View(model);
         }
 
@@ -65,6 +74,14 @@ namespace WillsPlatform.Web.Controllers
         public async Task<IActionResult> AddQuestion()
         {
             var questionViewModel = await InitilizeModelAsync(new AddQuestionViewModel() { });
+            var breadcrumbs = new List<Breadcrumb>()
+            {
+                new Breadcrumb("Home", "/", "Home", true),
+                new Breadcrumb("Questionnaires", "/", "Manage", true),
+                new Breadcrumb("Add", "/", "Manage", false),
+            };
+            questionViewModel.Heading = "Add";
+            questionViewModel.Breadcrumbs = breadcrumbs;
             return View(questionViewModel);
         }
 
@@ -279,6 +296,86 @@ namespace WillsPlatform.Web.Controllers
             return RedirectToAction(nameof(Fields));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AddTemplates()
+        {
+            var forms = await _formService.GetAllFormAsync();
+            var model = new AddTemplateViewModel();
+            model.Forms = forms.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddTemplates(AddTemplateViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["error"] = $"Please enter valid data";
+                var forms = await _formService.GetAllFormAsync();
+                model.Forms = forms.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList();
+                return View(model);
+            }
+
+            var templatePostDTO = new TemplateDTO()
+            {
+                Text = model.Text,
+                FormId = model.FormId ?? 0
+            };
+            var isAdded = await _templateService.AddTemplateAsync(templatePostDTO);
+            if (!isAdded)
+                return View(model);
+
+            TempData["success"] = $"Template added successfully";
+
+            return RedirectToAction(nameof(Templates));
+        }
+
+        public async Task<IActionResult> EditTemplates(int id)
+        {
+            var forms = await _formService.GetAllFormAsync();
+            var templateDTO = await _templateService.GetTemplateByIdAsync(id);
+            var model = new EditTemplateViewModel();
+            model.Text = templateDTO.Text;
+            model.FormId = templateDTO.FormId;
+            model.Id = id;
+            model.Forms = forms.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditTemplates(EditTemplateViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                TempData["error"] = $"Please enter valid data";
+                var forms = await _formService.GetAllFormAsync();
+                model.Forms = forms.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList();
+                return View(model);
+            }
+
+            var templatePostDTO = new TemplateDTO()
+            {
+                Text = model.Text,
+                FormId = model.FormId ?? 0,
+                Id = model.Id
+            };
+            var isUpdated = await _templateService.UpdateTemplateAsync(templatePostDTO);
+            if (!isUpdated)
+                return View(model);
+
+            TempData["success"] = $"Template updated successfully";
+
+            return RedirectToAction(nameof(Templates));
+        }
+
+        public async Task<IActionResult> DeleteTemplates(int id)
+        {
+            var isUpdated = await _templateService.DeleteTemplateAsync(id);
+
+            TempData["success"] = $"Template deleted successfully";
+
+            return RedirectToAction(nameof(Templates));
+        }
 
         #region -- Private Helper Methods --
         private async Task<AddQuestionViewModel> InitilizeModelAsync(AddQuestionViewModel model)

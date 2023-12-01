@@ -22,6 +22,8 @@ namespace WillsPlatform.Application
             .ForMember(dest => dest.Id, opt => opt.Ignore());
             CreateMap<FieldDTO, Field>()
             .ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<TemplateDTO, Template>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore());
         }
     }
 }

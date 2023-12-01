@@ -4,7 +4,7 @@ using WillsPlatform.Application.DTOs;
 
 namespace WillsPlatform.Web.Models.Manage
 {
-    public class AddQuestionViewModel
+    public class AddQuestionViewModel : BaseViewModel
     {
         [Display(Name = "Please enter the questions text")]
         [Required(ErrorMessage = "Please enter the questions.")]

@@ -2,7 +2,7 @@
 
 namespace WillsPlatform.Web.Models.Manage
 {
-    public class QuestionnaireViewModel
+    public class QuestionnaireViewModel : BaseViewModel
     {
         public IEnumerable<QuestionDTO> Questionnaires { get; set; } = new List<QuestionDTO>();
     }
