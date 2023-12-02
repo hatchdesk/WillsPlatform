@@ -1,4 +1,6 @@
-﻿namespace WillsPlatform.Application.DTOs
+﻿using Domains.Entities;
+
+namespace WillsPlatform.Application.DTOs
 {
     public class TemplateDTO
     {
@@ -6,5 +8,6 @@
         public string Text { get; set; } = string.Empty;
         public IEnumerable<TokenDTO>? Tokens { get; set; }
         public int FormId { get; set; }
+        public Form? Form { get; set; }
     }
 }

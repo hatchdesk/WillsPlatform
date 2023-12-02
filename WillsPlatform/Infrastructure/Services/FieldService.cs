@@ -61,5 +61,18 @@ namespace WillsPlatform.Infrastructure.Services
                 return false;
             }
         }
+        public async Task<bool> DeleteFieldAsync(int id)
+        {
+            try
+            {
+                _fieldRepository.Delete(id);
+                await _unitOfWork.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

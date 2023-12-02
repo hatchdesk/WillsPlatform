@@ -37,8 +37,9 @@
                                         <th scope="row"><a href="#">#@index</a></th>
                                         <td>Wills Template</td>
                                         <td>@template.Tokens.FirstOrDefault()</td>
-                                        <td><a class="btn btn-success" asp-action="EditTemplates" asp-controller="Manage" asp-route-id="@template.Id">Edit</a>
-                                            <a class="btn btn-danger" asp-action="DeleteTemplates" asp-controller="Manage" asp-route-id="@template.Id">Delete</a>
+                                        <td>
+                                            <a asp-action="EditTemplates" asp-controller="Manage" asp-route-id="@template.Id"><i class="ri-edit-2-line"></i></a>
+                                            <a asp-action="DeleteTemplates" asp-controller="Manage" asp-route-id="@template.Id"><i class="ri-delete-bin-5-line"></i></a>
                                         </td>
                                     </tr>
                                     }

@@ -88,6 +88,14 @@ namespace WillsPlatform.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddQuestion(AddQuestionViewModel model)
         {
+            var breadcrumbs = new List<Breadcrumb>()
+            {
+                new Breadcrumb("Home", "/", "Home", true),
+                new Breadcrumb("Questionnaires", "/", "Manage", true),
+                new Breadcrumb("Add", "/", "Manage", false),
+            };
+            model.Heading = "Add";
+            model.Breadcrumbs = breadcrumbs;
             if (!ModelState.IsValid)
             {
                 TempData["error"] = $"Please enter valid data";
@@ -177,6 +185,7 @@ namespace WillsPlatform.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["error"] = $"Enter valid data";
                 return View(new AddFormViewModel());
             }
 
@@ -186,8 +195,12 @@ namespace WillsPlatform.Web.Controllers
             };
             var isAdded = await _formService.AddFormAsync(formPostDTO);
             if (!isAdded)
+            {
+                TempData["error"] = $"Enter valid data";
                 return View(model);
+            }
 
+            TempData["success"] = $"Form added success";
             return RedirectToAction(nameof(Forms));
         }
 
@@ -213,6 +226,7 @@ namespace WillsPlatform.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["error"] = $"Enter valid data";
                 return View(model);
             }
 
@@ -225,9 +239,10 @@ namespace WillsPlatform.Web.Controllers
             var isUpdate = await _formService.UpdateFormAsync(formPostDTO);
             if (!isUpdate)
             {
+                TempData["error"] = $"Enter valid data";
                 return View(model);
             }
-
+            TempData["success"] = $"Updated forms susscessfully";
             return RedirectToAction(nameof(Forms));
         }
 
@@ -242,6 +257,7 @@ namespace WillsPlatform.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["error"] = $"Enter valid data";
                 return View(new AddFieldViewModel());
             }
 
@@ -251,8 +267,12 @@ namespace WillsPlatform.Web.Controllers
             };
             var isAdded = await _fieldService.AddFieldAsync(fieldPostDTO);
             if (!isAdded)
+            {
+                TempData["error"] = $"Enter valid data";
                 return View(model);
+            }
 
+            TempData["success"] = $"Field added successfully";
             return RedirectToAction(nameof(Fields));
         }
 
@@ -278,6 +298,7 @@ namespace WillsPlatform.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["error"] = $"Enter valid data";
                 return View(model);
             }
 
@@ -290,9 +311,11 @@ namespace WillsPlatform.Web.Controllers
             var isUpdate = await _fieldService.UpdateFieldAsync(fieldPostDTO);
             if (!isUpdate)
             {
+                TempData["error"] = $"Enter valid data";
                 return View(model);
             }
 
+            TempData["success"] = $"Field updated successfully";
             return RedirectToAction(nameof(Fields));
         }
 
@@ -323,7 +346,12 @@ namespace WillsPlatform.Web.Controllers
             };
             var isAdded = await _templateService.AddTemplateAsync(templatePostDTO);
             if (!isAdded)
+            {
+                var forms = await _formService.GetAllFormAsync();
+                model.Forms = forms.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList();
+                TempData["error"] = $"Please enter valid data";
                 return View(model);
+            }
 
             TempData["success"] = $"Template added successfully";
 
@@ -361,7 +389,10 @@ namespace WillsPlatform.Web.Controllers
             };
             var isUpdated = await _templateService.UpdateTemplateAsync(templatePostDTO);
             if (!isUpdated)
+            {
+                TempData["error"] = $"Please enter valid data";
                 return View(model);
+            }
 
             TempData["success"] = $"Template updated successfully";
 
@@ -370,11 +401,58 @@ namespace WillsPlatform.Web.Controllers
 
         public async Task<IActionResult> DeleteTemplates(int id)
         {
-            var isUpdated = await _templateService.DeleteTemplateAsync(id);
+            var isDeleted = await _templateService.DeleteTemplateAsync(id);
 
-            TempData["success"] = $"Template deleted successfully";
+            if (isDeleted)
+            {
+                TempData["success"] = $"Template deleted successfully";
+                return RedirectToAction(nameof(Templates));
+            }
 
+            TempData["error"] = $"Template deleted error";
             return RedirectToAction(nameof(Templates));
+        }
+
+        public async Task<IActionResult> DeleteQuestion(int id)
+        {
+            var isDeleted = await _questionService.DeleteQuestionAsync(id);
+
+            if (isDeleted)
+            {
+                TempData["success"] = $"Question deleted successfully";
+                return RedirectToAction(nameof(Questionnaires));
+            }
+
+            TempData["error"] = $"Question deleted error";
+            return RedirectToAction(nameof(Questionnaires));
+        }
+
+        public async Task<IActionResult> DeleteField(int id)
+        {
+            var isDeleted = await _fieldService.DeleteFieldAsync(id);
+
+            if (isDeleted)
+            {
+                TempData["success"] = $"Field deleted successfully";
+                return RedirectToAction(nameof(Fields));
+            }
+
+            TempData["error"] = $"Field deleted error";
+            return RedirectToAction(nameof(Fields));
+        }
+
+        public async Task<IActionResult> DeleteForm(int id)
+        {
+            var isDeleted = await _formService.DeleteFormAsync(id);
+
+            if (isDeleted)
+            {
+                TempData["success"] = $"Form deleted successfully";
+                return RedirectToAction(nameof(Forms));
+            }
+
+            TempData["error"] = $"Form deleted error";
+            return RedirectToAction(nameof(Forms));
         }
 
         #region -- Private Helper Methods --

@@ -36,7 +36,10 @@
                                         <td>@question.Form.Name</td>
                                         <td>@question.Text</td>
                                         <td><a href="#" class="text-primary">@question.Field.Name</a></td>
-                                        <td><a class="btn btn-success" asp-action="EditQuestion" asp-controller="Manage" asp-route-id="@question.Id">Edit</a></td>
+                                        <td>
+                                            <a asp-action="EditQuestion" asp-controller="Manage" asp-route-id="@question.Id"><i class="ri-edit-2-line"></i></a>
+                                            <a asp-action="DeleteQuestion" asp-controller="Manage" asp-route-id="@question.Id"><i class="ri-delete-bin-5-line"></i></a>
+                                        </td>
                                     </tr>
                                 }
                             }

@@ -4,6 +4,7 @@ using WillsPlatform.Application;
 using WillsPlatform.Application.DTOs;
 using WillsPlatform.Application.Repositories;
 using WillsPlatform.Application.Services;
+using WillsPlatform.Infrastructure.Repositories;
 
 namespace WillsPlatform.Infrastructure.Services
 {
@@ -58,6 +59,19 @@ namespace WillsPlatform.Infrastructure.Services
                 await _questionRepository.UpdateAsync(question);
                 var updatedRecord = await _unitOfWork.SaveChangesAsync();
                 return (updatedRecord > 0);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+        public async Task<bool> DeleteQuestionAsync(int id)
+        {
+            try
+            {
+                _questionRepository.Delete(id);
+                await _unitOfWork.SaveChangesAsync();
+                return true;
             }
             catch (Exception ex)
             {

@@ -13,6 +13,7 @@
             <li class="breadcrumb-item active">Forms</li>
         </ol>
     </nav>
+    @await Html.PartialAsync("_Notification")
 </div>
 <section class="section">  
     <div class="row">
@@ -37,7 +38,10 @@
                                     <tr>
                                         <th scope="row"><a href="#">#@index</a></th>
                                         <td>@form.Name</td>
-                                        <td><span class="badge bg-success"><a asp-action="EditForm" asp-controller="Manage" asp-route-id="@form.Id">Edit</a></span></td>
+                                        <td>
+                                            <a asp-action="EditForm" asp-controller="Manage" asp-route-id="@form.Id"><i class="ri-edit-2-line"></i></a>
+                                            <a asp-action="DeleteForm" asp-controller="Manage" asp-route-id="@form.Id"><i class="ri-delete-bin-5-line"></i></a>
+                                        </td>
                                     </tr>
                                 }
                             }

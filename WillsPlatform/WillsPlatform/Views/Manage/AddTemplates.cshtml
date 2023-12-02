@@ -20,14 +20,14 @@
 
 <section class="section">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-9 mx-auto">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Form Information</h5>
                     <form asp-action="AddTemplates" asp-controller="Manage" method="post" class="row g-3">
                         
                         <!-- Form dropdown -->
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-floating mb-3">
                                 <select asp-for="FormId" asp-items="Model.Forms" class="form-select" id="floatingSelect" aria-label="State">
                                     <option value="" selected>Please select</option>

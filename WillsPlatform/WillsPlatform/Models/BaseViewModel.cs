@@ -2,7 +2,7 @@
 {
     public class BaseViewModel
     {
-        public string Heading { get; set; }
-        public List<Breadcrumb> Breadcrumbs { get; set; }
+        public string Heading { get; set; } = string.Empty;
+        public List<Breadcrumb> Breadcrumbs { get; set; } = new List<Breadcrumb>();
     }
 }

@@ -68,8 +68,7 @@ namespace WillsPlatform.Infrastructure.Services
         {
             try
             {
-                var templateDTO = await _templateRepository.GetAsync(id);
-                await _templateRepository.DeleteAsync(templateDTO);
+                _templateRepository.Delete(id);
                 await _unitOfWork.SaveChangesAsync();
                 return true;
             }

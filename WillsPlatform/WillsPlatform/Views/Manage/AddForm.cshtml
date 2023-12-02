@@ -13,20 +13,24 @@
             <li class="breadcrumb-item active">Add</li>
         </ol>
     </nav>
+    @await Html.PartialAsync("_Notification")
 </div>
 
 <section class="section">
    <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-9 mx-auto">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Form Information</h5>
                     <form asp-action="AddForm" asp-controller="Manage" method="post" class="row g-3">
                         
-                        <!-- Name input -->
-                        <label asp-for="Name"></label>
-                        <input asp-for="Name" />
-                        <span asp-validation-for="Name" class="text-danger"></span>
+                        <div class="col-md-12">
+                            <div class="form-floating">
+                                <input asp-for="Name" type="text" class="form-control" id="floatingName" placeholder="Your Name">
+                                <label asp-for="Name" for="floatingName"></label>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                        </div>
 
                         <!-- Form handle -->
                         <div class="text-center">

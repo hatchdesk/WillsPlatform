@@ -10,5 +10,6 @@ namespace WillsPlatform.Application.Services
         Task<bool> AddFieldAsync(FieldDTO fieldDTO);
         Task<FieldDTO> GetFieldByIdAsync(int id);
         Task<bool> UpdateFieldAsync(FieldDTO fieldDTO);
+        Task<bool> DeleteFieldAsync(int id);
     }
 }

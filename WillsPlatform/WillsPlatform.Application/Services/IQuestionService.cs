@@ -8,5 +8,6 @@ namespace WillsPlatform.Application.Services
         Task<bool> AddQuestionAsync(QuestionDTO questionPostDTO);
         Task<QuestionDTO> GetQuestionsByIdAsync(int id);
         Task<bool> UpdateQuestionAsync(QuestionDTO questionPostDTO);
+        Task<bool> DeleteQuestionAsync(int id);
     }
 }
