@@ -14,11 +14,7 @@ namespace WillsPlatform.Web.TagHelpers
         {
             output.TagName = GetTagName(FieldType);
             output.TagMode = TagMode.StartTagAndEndTag;
-            if (output.TagName == "div")
-            {
-
-            }
-            else 
+            if (output.TagName != "div")
             {
                 output.Attributes.SetAttribute("name", FieldName);
                 output.Attributes.SetAttribute("type", GetInputType(FieldType));
@@ -45,7 +41,6 @@ namespace WillsPlatform.Web.TagHelpers
                 foreach (var radioValue in radioValues)
                 {
                     var formCheckDivTag = new TagBuilder("div");
-                    formCheckDivTag.AddCssClass("form-check");
 
                     var radioTag = new TagBuilder("input");
                     radioTag.Attributes.Add("type", "radio");
@@ -71,7 +66,6 @@ namespace WillsPlatform.Web.TagHelpers
                 var checkboxValues = new List<string> { "male", "female" };
 
                 var divTag = new TagBuilder("div");
-                divTag.AddCssClass("col-sm-10");
 
                 foreach (var checkboxValue in checkboxValues)
                 {
