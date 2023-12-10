@@ -19,15 +19,23 @@ namespace WillsPlatform.Infrastructure.Repositories
 
         public async Task<IEnumerable<QuestionDTO>> GetAllQuestionsByFormAsync(int formId)
         {
+            //var questions = await (from Ques in _dbContext.Questions
+            //                 join Tok in _dbContext.Tokens on Ques.Id equals Tok.QuestionId
+            //                 where Ques.FormId == formId
+            //                 select new QuestionDTO
+            //                 {
+            //                     Id = Ques.Id,
+            //                     Name = Tok.Name,
+            //                     Text = Ques.Text
+            //                 }).ToListAsync();
+
             var questions = await (from Ques in _dbContext.Questions
-                             join Tok in _dbContext.Tokens on Ques.Id equals Tok.QuestionId
-                             where Ques.FormId == formId
-                             select new QuestionDTO
-                             {
-                                 Id = Ques.Id,
-                                 Name = Tok.Name,
-                                 Text = Ques.Text
-                             }).ToListAsync();
+                                   select new QuestionDTO
+                                   {
+                                       Id = Ques.Id,
+                                       Text = Ques.Text,
+                                       Field = Ques.Field
+                                   }).Take(20).ToListAsync();
 
             return questions;
         }

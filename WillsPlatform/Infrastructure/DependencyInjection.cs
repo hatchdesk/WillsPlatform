@@ -28,6 +28,8 @@ namespace Infrastructure
             services.AddScoped<IFieldRepository, FieldRepository>();
             services.AddScoped<IFieldService, FieldService>();
             services.AddScoped<ITemplateService, TemplateService>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<ITokenRepository, TokenRepository>();
             #endregion
 
             services.AddDbContext<ApplicationDbContext>(option =>

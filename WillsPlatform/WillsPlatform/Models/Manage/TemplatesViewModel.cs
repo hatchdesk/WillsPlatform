@@ -2,7 +2,7 @@
 
 namespace WillsPlatform.Web.Models.Manage
 {
-    public class TemplatesViewModel
+    public class TemplatesViewModel : BaseViewModel
     {
         public IEnumerable<TemplateDTO> Templates { get; set; } = new List<TemplateDTO>();
     }

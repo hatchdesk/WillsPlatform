@@ -9,11 +9,19 @@
 
         public Breadcrumb() { }
 
-        public Breadcrumb(string text, string action, string controller, bool active)
+        //Want to show text with URL
+        public Breadcrumb(string text, string controller, string action = "",bool active = true)
         {
             this.Text = text;
             this.Action = action;
             this.Controller = controller;
+            this.Active = active;
+        }
+
+        //Want to show only text
+        public Breadcrumb(string text, bool active = false)
+        {
+            this.Text = text;
             this.Active = active;
         }
     }

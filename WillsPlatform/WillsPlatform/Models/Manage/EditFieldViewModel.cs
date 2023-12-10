@@ -2,7 +2,7 @@
 
 namespace WillsPlatform.Web.Models.Manage
 {
-    public class EditFieldViewModel
+    public class EditFieldViewModel : BaseViewModel
     {
         public int Id { get; set; }
         [Display(Name = "Name")]

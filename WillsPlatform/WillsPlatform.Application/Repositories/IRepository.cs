@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace WillsPlatform.Application.Repositories
 {
@@ -11,6 +12,7 @@ namespace WillsPlatform.Application.Repositories
         Task<T?> GetAsync(object id);
         Task<T?> FindAsync(Expression<Func<T, bool>> predicate);
         Task AddAsync(T entity);
+        Task AddRangeAsync(List<T> entities);
         void Add(T entity);
         void Update(T entity);
         Task UpdateAsync(T entity);

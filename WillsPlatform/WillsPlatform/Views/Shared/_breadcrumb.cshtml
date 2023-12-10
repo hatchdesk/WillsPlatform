@@ -1,18 +1,39 @@
 ﻿@using WillsPlatform.Web.Models
-@model List<Breadcrumb>
+@model BaseViewModel
 
-<nav>
-    <ol class="breadcrumb">
-        @foreach (var breadcrumb in Model)
+<div class="pagetitle">
+    <h1>@Model.Heading</h1>
+    <nav>
+        <ol class="breadcrumb">
+            @foreach (var breadcrumb in Model.Breadcrumbs)
+            {
+                if (breadcrumb.Active && !string.IsNullOrEmpty(breadcrumb.Controller))
+                {
+                    <li class="breadcrumb-item"><a asp-action="@breadcrumb.Action" asp-controller="@breadcrumb.Controller">@breadcrumb.Text</a></li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item active" aria-current="page">@breadcrumb.Text</li>
+                }
+            }
+        </ol>
+    </nav>
+    <div class="col-lg-6 mx-auto">
+        @if (TempData["success"] != null)
         {
-            if (breadcrumb.Active)
-            {
-                <li class="breadcrumb-item"><a asp-action="@breadcrumb.Action" asp-controller="@breadcrumb.Controller">@breadcrumb.Text</a></li>
-            }
-            else
-            {
-                <li class="breadcrumb-item active" aria-current="page">@breadcrumb.Text</li>
-            }
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle me-1"></i>
+                @TempData["success"].ToString()
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
         }
-    </ol>
-</nav>
+        @if (TempData["error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-octagon me-1"></i>
+                @TempData["error"].ToString()
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+    </div>
+</div>

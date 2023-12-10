@@ -27,6 +27,11 @@ namespace WillsPlatform.Infrastructure.Repositories
             await _dbSet.AddAsync(entity);
         }
 
+        public async Task AddRangeAsync(List<T> entities)
+        {
+            await _dbSet.AddRangeAsync(entities);
+        }
+
         public int Count()
         {
             return _dbSet.Count();

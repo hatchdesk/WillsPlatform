@@ -5,18 +5,7 @@
 
 }
 
-<div class="pagetitle">
-    <h1>Create</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="~/">Home</a></li>
-            <li class="breadcrumb-item"><a href="~/Manage/Forms">Forms</a></li>
-            <li class="breadcrumb-item active">Add</li>
-        </ol>
-    </nav>
-    @await Html.PartialAsync("_Notification")
-
-</div>
+@await Html.PartialAsync("_breadcrumb", new BaseViewModel() { Breadcrumbs = Model.Breadcrumbs, Heading = Model.Heading })
 
 <section class="section">
     <div class="row">

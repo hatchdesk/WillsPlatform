@@ -1,7 +1,9 @@
-﻿@using WillsPlatform.Web.Models.Forms;
+﻿@using WillsPlatform.Application.Enumerations
+@using WillsPlatform.Web.Models.Forms;
 @{
     ViewData["Title"] = "Create";
     @model FormViewModel
+
 }
 
 <div class="pagetitle">
@@ -16,7 +18,7 @@
 </div>
 
 <section class="section">
-   <div class="row">
+    <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -24,11 +26,32 @@
                     <form asp-action="Generate" asp-controller="Form" method="post" class="row g-3">
                         <input type="hidden" asp-for="@Model.FormId" />
                         @foreach (var objQ in Model.Questions)
-                        { 
-                            <div class="col-6">
-                               <label for="@objQ.Id" class="form-label">@objQ.Text</label>
-                                <question field-name="@objQ.Name" class="form-control" id="@objQ.Id" field-type="@objQ.FieldId"></question>
-                            </div>
+                        {
+                            @if (objQ.Field.Id != FieldTypes.RadioButton.Value)
+                            {
+                                <div class="col-md-12">
+                                    @if (objQ.Field.Id != FieldTypes.Checkbox.Value)
+                                    {
+                                        <div class="form-floating mb-3">
+                                            <question field-name="@objQ.Name" class="form-control" id="floatingName" placeholder="Your Name" field-type="@objQ.Field.Id"></question>
+                                            <label for="floatingName">@objQ.Text</label>
+                                        </div>
+                                    }
+                                    @if (objQ.Field.Id == FieldTypes.Checkbox.Value)
+                                    {
+                                        <legend class="col-form-label col-sm-2 pt-0">@objQ.Text</legend>
+                                        <question field-name="@objQ.Name" class="col-sm-10" field-type="@objQ.Field.Id"></question>
+                                    }
+                                </div>
+                            }
+                            @if (objQ.Field.Id == FieldTypes.RadioButton.Value)
+                            {
+                                <fieldset>
+                                    <legend class="col-form-label col-sm-2 pt-0">@objQ.Text</legend>
+                                    <question field-name="@objQ.Name" class="col-sm-10" field-type="@objQ.Field.Id"></question>
+                                </fieldset>
+                            }
+                            
                         }
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary">Generate</button>
@@ -38,6 +61,6 @@
 
                 </div>
             </div>
-   </div>
-   </div>
+        </div>
+    </div>
 </section>

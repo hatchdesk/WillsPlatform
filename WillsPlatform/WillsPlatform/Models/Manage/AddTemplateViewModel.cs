@@ -4,7 +4,7 @@ using WillsPlatform.Application.DTOs;
 
 namespace WillsPlatform.Web.Models.Manage
 {
-    public class AddTemplateViewModel
+    public class AddTemplateViewModel : BaseViewModel
     {
         [Display(Name = "Text")]
         public string Text { get; set; }

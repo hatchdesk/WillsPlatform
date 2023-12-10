@@ -1,39 +1,45 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text.RegularExpressions;
+using WillsPlatform.Application.Constants;
 using WillsPlatform.Application.DTOs;
 using WillsPlatform.Application.Services;
 using WillsPlatform.Web.Models;
+using WillsPlatform.Web.Models.Forms;
 using WillsPlatform.Web.Models.Manage;
 
 namespace WillsPlatform.Web.Controllers
 {
-    public class ManageController : Controller
+    public class ManageController : BaseController
     {
         private readonly IQuestionService _questionService;
         private readonly IFormService _formService;
         private readonly IFieldService _fieldService;
         private readonly ITemplateService _templateService;
+        private readonly ITokenService _tokenService;
 
-        public ManageController(IQuestionService questionService, IFormService formService, IFieldService fieldService, ITemplateService templateService)
+        public ManageController(IQuestionService questionService, 
+                                IFormService formService, 
+                                IFieldService fieldService, 
+                                ITemplateService templateService,
+                                ITokenService tokenService)
         {
             _questionService = questionService;
             _formService = formService;
             _fieldService = fieldService;
             _templateService = templateService;
+            _tokenService = tokenService;
         }
 
         public async Task<IActionResult> Questionnaires()
         {
             var questions = await _questionService.GetQuestionsAsync();
-            var breadcrumbs = new List<Breadcrumb>() 
-            { 
-                new Breadcrumb("Home", "/", "Home", true),
-                new Breadcrumb("Questionnaires", "/", "Manage", false),
-            };
+            var breadcrumbs = InitializeBreadcrumbsList();
+            breadcrumbs.Add(new(nameof(Questionnaires)));
             var model = new QuestionnaireViewModel()
             {
                 Questionnaires = questions,
-                Heading = "Questionnaires",
+                Heading = nameof(Questionnaires),
                 Breadcrumbs = breadcrumbs
             };
 
@@ -43,9 +49,13 @@ namespace WillsPlatform.Web.Controllers
         public async Task<IActionResult> Forms()
         {
             var forms = await _formService.GetAllFormAsync();
+            var breadcrumbs = InitializeBreadcrumbsList();
+            breadcrumbs.Add(new(nameof(Forms)));
             var model = new FormsViewModel
             {
-                Forms = forms
+                Forms = forms,
+                Breadcrumbs = breadcrumbs,
+                Heading = nameof(Forms)
             };       
             return View(model);
         }
@@ -53,9 +63,13 @@ namespace WillsPlatform.Web.Controllers
         public async Task<IActionResult> Fields()
         {
             var fields = await _fieldService.GetAllFieldAsync();
+            var breadcrumbs = InitializeBreadcrumbsList();
+            breadcrumbs.Add(new(nameof(Fields)));
             var model = new FieldsViewModel
             {
-                Fields = fields
+                Fields = fields,
+                Breadcrumbs = breadcrumbs,
+                Heading = nameof(Fields)
             };
             return View(model);
         }
@@ -63,24 +77,24 @@ namespace WillsPlatform.Web.Controllers
         public async Task<IActionResult> Templates()
         {
             var templates = await _templateService.GetAllTEmplateAsync();
+            var breadcrumbs = InitializeBreadcrumbsList();
+            breadcrumbs.Add(new(nameof(Templates)));
             var model = new TemplatesViewModel
             {
-                Templates = templates
+                Templates = templates,
+                Breadcrumbs = breadcrumbs,
+                Heading = nameof(Templates)
             };
             return View(model);
         }
 
-        [HttpGet]
         public async Task<IActionResult> AddQuestion()
         {
             var questionViewModel = await InitilizeModelAsync(new AddQuestionViewModel() { });
-            var breadcrumbs = new List<Breadcrumb>()
-            {
-                new Breadcrumb("Home", "/", "Home", true),
-                new Breadcrumb("Questionnaires", "/", "Manage", true),
-                new Breadcrumb("Add", "/", "Manage", false),
-            };
-            questionViewModel.Heading = "Add";
+            var breadcrumbs = InitializeBreadcrumbsList();
+            breadcrumbs.Add(new(nameof(Questionnaires), GetCurrentControllerName()));
+            breadcrumbs.Add(new(PagesHeadingNames.Add));
+            questionViewModel.Heading = PagesHeadingNames.Add;
             questionViewModel.Breadcrumbs = breadcrumbs;
             return View(questionViewModel);
         }
@@ -88,14 +102,6 @@ namespace WillsPlatform.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddQuestion(AddQuestionViewModel model)
         {
-            var breadcrumbs = new List<Breadcrumb>()
-            {
-                new Breadcrumb("Home", "/", "Home", true),
-                new Breadcrumb("Questionnaires", "/", "Manage", true),
-                new Breadcrumb("Add", "/", "Manage", false),
-            };
-            model.Heading = "Add";
-            model.Breadcrumbs = breadcrumbs;
             if (!ModelState.IsValid)
             {
                 TempData["error"] = $"Please enter valid data";
@@ -118,7 +124,6 @@ namespace WillsPlatform.Web.Controllers
             return RedirectToAction(nameof(Questionnaires));
         }
 
-        [HttpGet]
         public async Task<IActionResult> EditQuestion(int id)
         {
             var question = await _questionService.GetQuestionsByIdAsync(id);
@@ -139,6 +144,11 @@ namespace WillsPlatform.Web.Controllers
                 Id = question.Id
             };
 
+            var breadcrumbs = InitializeBreadcrumbsList();
+            breadcrumbs.Add(new(nameof(Questionnaires), GetCurrentControllerName()));
+            breadcrumbs.Add(new(PagesHeadingNames.Edit));
+            questionViewModel.Heading = PagesHeadingNames.Edit;
+            questionViewModel.Breadcrumbs = breadcrumbs;
             return View(questionViewModel);
         }
 
@@ -174,10 +184,15 @@ namespace WillsPlatform.Web.Controllers
             return RedirectToAction(nameof(Questionnaires));
         }
 
-        [HttpGet]
         public IActionResult AddForm()
         {
-            return View(new AddFormViewModel());
+            var breadcrumbs = InitializeBreadcrumbsList();
+            breadcrumbs.Add(new(nameof(Forms), GetCurrentControllerName()));
+            breadcrumbs.Add(new(PagesHeadingNames.Add));
+            var model = new AddFormViewModel();
+            model.Heading = PagesHeadingNames.Add;
+            model.Breadcrumbs = breadcrumbs;
+            return View(model);
         }
 
         [HttpPost]
@@ -204,7 +219,6 @@ namespace WillsPlatform.Web.Controllers
             return RedirectToAction(nameof(Forms));
         }
 
-        [HttpGet]
         public async Task<IActionResult> EditForm(int id)
         {
             var form = await _formService.GetFormByIdAsync(id);
@@ -217,6 +231,12 @@ namespace WillsPlatform.Web.Controllers
                 Name = form.Name,
                 Id = form.Id
             };
+
+            var breadcrumbs = InitializeBreadcrumbsList();
+            breadcrumbs.Add(new(nameof(Forms), GetCurrentControllerName()));
+            breadcrumbs.Add(new(PagesHeadingNames.Edit));
+            formViewModel.Heading = PagesHeadingNames.Edit;
+            formViewModel.Breadcrumbs = breadcrumbs;
 
             return View(formViewModel);
         }
@@ -246,10 +266,15 @@ namespace WillsPlatform.Web.Controllers
             return RedirectToAction(nameof(Forms));
         }
 
-        [HttpGet]
         public IActionResult AddField()
         {
-            return View(new AddFieldViewModel());
+            var breadcrumbs = InitializeBreadcrumbsList();
+            breadcrumbs.Add(new(nameof(Fields), GetCurrentControllerName()));
+            breadcrumbs.Add(new(PagesHeadingNames.Add));
+            var model = new AddFieldViewModel();
+            model.Heading = PagesHeadingNames.Add;
+            model.Breadcrumbs = breadcrumbs;
+            return View(model);
         }
 
         [HttpPost]
@@ -276,7 +301,6 @@ namespace WillsPlatform.Web.Controllers
             return RedirectToAction(nameof(Fields));
         }
 
-        [HttpGet]
         public async Task<IActionResult> EditField(int id)
         {
             var field = await _fieldService.GetFieldByIdAsync(id);
@@ -289,6 +313,12 @@ namespace WillsPlatform.Web.Controllers
                 Name = field.Name,
                 Id = field.Id
             };
+
+            var breadcrumbs = InitializeBreadcrumbsList();
+            breadcrumbs.Add(new(nameof(Fields), GetCurrentControllerName()));
+            breadcrumbs.Add(new(PagesHeadingNames.Edit));
+            fieldViewModel.Heading = PagesHeadingNames.Edit;
+            fieldViewModel.Breadcrumbs = breadcrumbs;
 
             return View(fieldViewModel);
         }
@@ -319,12 +349,18 @@ namespace WillsPlatform.Web.Controllers
             return RedirectToAction(nameof(Fields));
         }
 
-        [HttpGet]
         public async Task<IActionResult> AddTemplates()
         {
             var forms = await _formService.GetAllFormAsync();
             var model = new AddTemplateViewModel();
             model.Forms = forms.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList();
+
+            var breadcrumbs = InitializeBreadcrumbsList();
+            breadcrumbs.Add(new(nameof(Templates), GetCurrentControllerName()));
+            breadcrumbs.Add(new(PagesHeadingNames.Add));
+            model.Heading = PagesHeadingNames.Add;
+            model.Breadcrumbs = breadcrumbs;
+
             return View(model);
         }
 
@@ -353,6 +389,15 @@ namespace WillsPlatform.Web.Controllers
                 return View(model);
             }
 
+            if (!string.IsNullOrEmpty(model.Text))
+            {
+                var tokens = await ExtractTokensAsync(templatePostDTO);
+                if (tokens.Any())
+                {
+                    //var isAddedTokens = await _tokenService.AddTokenAsync(tokens);
+                }
+            }
+
             TempData["success"] = $"Template added successfully";
 
             return RedirectToAction(nameof(Templates));
@@ -367,6 +412,13 @@ namespace WillsPlatform.Web.Controllers
             model.FormId = templateDTO.FormId;
             model.Id = id;
             model.Forms = forms.Select(f => new SelectListItem { Value = f.Id.ToString(), Text = f.Name }).ToList();
+
+            var breadcrumbs = InitializeBreadcrumbsList();
+            breadcrumbs.Add(new(nameof(Templates), GetCurrentControllerName()));
+            breadcrumbs.Add(new(PagesHeadingNames.Edit));
+            model.Heading = PagesHeadingNames.Edit;
+            model.Breadcrumbs = breadcrumbs;
+
             return View(model);
         }
 
@@ -466,6 +518,32 @@ namespace WillsPlatform.Web.Controllers
 
             return model;
         }
+
+        private async Task<List<TokenDTO>> ExtractTokensAsync(TemplateDTO template)
+        {
+            var tokens = new List<TokenDTO>();
+            var questions = await _questionService.GetQuestionsAsync();
+            // Define the pattern for matching strings between {{ and }}
+            string pattern = @"\{\{(.+?)\}\}";
+            MatchCollection matches = Regex.Matches(template.Text, pattern);
+
+            // Extract and add matched strings to the list
+            foreach (Match match in matches)
+            {
+                if (match.Groups.Count > 1)
+                {
+                    string extractedString = match.Groups[1].Value;
+                    var question = questions.Where(x => string.Equals(x.Text.Replace(" ", ""), extractedString.Replace(" ", ""), StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                    if (question is not null)
+                    {
+                        tokens.Add(new TokenDTO() { Name = extractedString, Questionid = question.Id});
+                    }
+                }
+            }
+
+            return tokens;
+        }
+
         #endregion
     }
 }

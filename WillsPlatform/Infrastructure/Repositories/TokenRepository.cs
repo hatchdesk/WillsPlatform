@@ -4,9 +4,9 @@ using WillsPlatform.Domains.Entities;
 
 namespace WillsPlatform.Infrastructure.Repositories
 {
-    public sealed class TemplateRepository : BaseRepository<Template>, ITemplateRepository
+    public class TokenRepository : BaseRepository<Token>, ITokenRepository
     {
-        public TemplateRepository(ApplicationDbContext dbContext) : base(dbContext)
+        public TokenRepository(ApplicationDbContext dbContext) : base(dbContext)
         {
 
         }

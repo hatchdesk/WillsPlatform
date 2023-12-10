@@ -2,7 +2,7 @@
 
 namespace WillsPlatform.Web.Models.Manage
 {
-    public class AddFieldViewModel
+    public class AddFieldViewModel : BaseViewModel
     {
         [Display(Name = "Name")]
         [Required(ErrorMessage = "Please enter the Name.")]

@@ -4,7 +4,7 @@ using WillsPlatform.Application.DTOs;
 
 namespace WillsPlatform.Web.Models.Manage
 {
-    public class EditQuestionViewModel
+    public class EditQuestionViewModel : BaseViewModel
     {
         public int Id { get; set; }
         [Display(Name = "Please enter the questions text")]
